@@ -21,7 +21,7 @@ class AuthViewModel: ObservableObject {
             self.session = current
             self.isAuthenticated = current != nil
         } catch {
-            print("No active session: \(error.localizedDescription)")
+            print("No active sessiosn: \(error.localizedDescription)")
         }
     }
     
