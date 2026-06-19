@@ -21,7 +21,7 @@ class AuthViewModel: ObservableObject {
             self.session = current
             self.isAuthenticated = current != nil
         } catch {
-            print("No active sessiosn: \(error.localizedDescription)")
+            print("No active session: \(error.localizedDescription)")
         }
     }
     
@@ -52,6 +52,7 @@ class AuthViewModel: ObservableObject {
             try await supabase.auth.signOut()
             self.session = nil
             self.isAuthenticated = false
+//            isAuthenticated = false
         }
         catch {
             print("Sign Out failed: \(error.localizedDescription)")

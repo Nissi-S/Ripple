@@ -13,7 +13,7 @@ struct HomeView: View {
         Text("Hello, Home!")
         Button("Sign Out") {
             Task {
-                await authViewModel.signOut
+                await authViewModel.signOut()
             }
         }
     }
@@ -22,3 +22,4 @@ struct HomeView: View {
 //#Preview {
 //    HomeView()
 //}
+
