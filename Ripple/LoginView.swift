@@ -14,6 +14,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 16) {
+                Text("Welcome to Ripple")
                 TextField("Enter your email", text: $email)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
@@ -28,6 +29,10 @@ struct LoginView: View {
                     }
                 }
                 .buttonStyle(.borderedProminent)
+                
+                Spacer()
+                    .frame(height: 50)
+                Text("Dont have an account? Sign up here.")
                 
                 //        Button("Sign Up") {
                 //            Task {

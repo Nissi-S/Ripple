@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @ObservedObject var authViewModel: AuthViewModel
     var body: some View {
-        Text("Hello, Home!")
+        Text("Hello!")
         Button("Sign Out") {
             Task {
                 await authViewModel.signOut()

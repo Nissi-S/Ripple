@@ -25,15 +25,30 @@ class AuthViewModel: ObservableObject {
         }
     }
     
-    func signUp(email: String, password: String) async {
+    func signUp(email: String, password: String, role: String) async {
         do {
-            let result = try await supabase.auth.signUp(email: email, password: password)
-            self.session = result.session
-            self.isAuthenticated = self.session != nil
-        }
-        catch {
-            print("Sign up failed: \(error.localizedDescription)")
-        }
+               let result = try await supabase.auth.signUp(
+                   email: email,
+                   password: password
+               )
+               
+               let user = result.user
+               
+               try await supabase
+                   .from("profiles")
+                   .insert([
+                       "id": user.id.uuidString,
+                       "email": email,
+                       "role": role
+                   ])
+                   .execute()
+               
+               self.session = result.session
+               self.isAuthenticated = self.session != nil
+               
+           } catch {
+               print("Sign up failed: \(error.localizedDescription)")
+           }
     }
     
     func signIn(email: String, password: String) async {
