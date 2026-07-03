@@ -14,12 +14,15 @@ import Combine
 class AuthViewModel: ObservableObject {
     @Published var session: Session?
     @Published var isAuthenticated = false
+    @Published var currentUserRole: String?
     
     func getIntialSession() async {
         do {
             let current = try await supabase.auth.session
             self.session = current
             self.isAuthenticated = current != nil
+            
+            await fetchUserRole()
         } catch {
             print("No active session: \(error.localizedDescription)")
         }
@@ -56,6 +59,8 @@ class AuthViewModel: ObservableObject {
             let result = try await supabase.auth.signIn(email: email, password: password)
             self.session = result
             self.isAuthenticated = self.session != nil
+            
+            await fetchUserRole()
         }
         catch {
             print("Sign In failed: \(error.localizedDescription)")
@@ -71,6 +76,25 @@ class AuthViewModel: ObservableObject {
         }
         catch {
             print("Sign Out failed: \(error.localizedDescription)")
+        }
+    }
+    
+    func fetchUserRole() async {
+        guard let userId = session?.user.id else { return }
+        
+        do {
+            let profile: Profile = try await supabase
+                .from("profile")
+                .select()
+                .eq("id", value: userId)
+                .single()
+                .execute()
+                .value
+            
+            self.currentUserRole = profile.role
+            
+        } catch {
+            print("Failed to fetch role: \(error.localizedDescription)")
         }
     }
     

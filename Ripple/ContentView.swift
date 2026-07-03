@@ -13,7 +13,12 @@ struct ContentView: View {
         
         Group {
             if authViewModel.isAuthenticated {
-                HomeView(authViewModel: authViewModel)
+//                HomeView(authViewModel: authViewModel)
+                if authViewModel.currentUserRole == "student" {
+                    StudentView()
+                } else {
+                    OrganizationView()
+                }
             } else {
                 LoginView(authViewModel: authViewModel)
             }
