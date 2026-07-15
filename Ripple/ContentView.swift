@@ -17,7 +17,7 @@ struct ContentView: View {
                 if authViewModel.currentUserRole == "student" {
                     StudentView()
                 } else {
-                    OrganizationView()
+                    OrganizationView(authViewModel: authViewModel)
                 }
             } else {
                 LoginView(authViewModel: authViewModel)

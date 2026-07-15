@@ -8,11 +8,28 @@
 import SwiftUI
 
 struct OrganizationView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
-}
+    @ObservedObject var authViewModel: AuthViewModel
+    @State private var showingCreateOpportunity = false
 
-#Preview {
-    OrganizationView()
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 20) {
+
+                Text("Organization Dashboard")
+                    .font(.largeTitle)
+                    .bold()
+
+                Button("Post New Opportunity") {
+                    showingCreateOpportunity = true
+                }
+                .buttonStyle(.borderedProminent)
+
+                Spacer()
+            }
+            .navigationTitle("Home")
+            .sheet(isPresented: $showingCreateOpportunity) {
+                CreateOpportunityView(authViewModel: authViewModel)
+            }
+        }
+    }
 }

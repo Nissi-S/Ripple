@@ -22,7 +22,9 @@ class AuthViewModel: ObservableObject {
             self.session = current
             self.isAuthenticated = current != nil
             
-            await fetchUserRole()
+            if self.isAuthenticated {
+                await fetchUserRole()
+            }
         } catch {
             print("No active session: \(error.localizedDescription)")
         }
@@ -84,13 +86,13 @@ class AuthViewModel: ObservableObject {
         
         do {
             let profile: Profile = try await supabase
-                .from("profile")
+                .from("profiles")
                 .select()
                 .eq("id", value: userId)
                 .single()
                 .execute()
                 .value
-            
+            print("Fetched role: \(profile.role)")
             self.currentUserRole = profile.role
             
         } catch {
