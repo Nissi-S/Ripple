@@ -25,6 +25,13 @@ struct OrganizationView: View {
                 .buttonStyle(.borderedProminent)
 
                 Spacer()
+                
+                Button("Sign Out") {
+                    Task {
+                        await authViewModel.signOut()
+                    }
+                }
+                
             }
             .navigationTitle("Home")
             .sheet(isPresented: $showingCreateOpportunity) {

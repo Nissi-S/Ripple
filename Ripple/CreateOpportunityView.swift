@@ -9,6 +9,7 @@ import SwiftUI
 internal import Auth
 
 struct CreateOpportunityView: View {
+    @Environment(\.dismiss) private var dismiss
     @ObservedObject var authViewModel: AuthViewModel
     @State private var title = ""
     @State private var description = ""
@@ -32,7 +33,7 @@ struct CreateOpportunityView: View {
 
                 TextField("Location", text: $location)
 
-                TextField("Contact", text: $contact)
+                TextField("Contact (include business name)", text: $contact)
             }
 
             Button("Post Opportunity") {
@@ -56,6 +57,7 @@ struct CreateOpportunityView: View {
                            )
 
                            print("Opportunity created!")
+                           dismiss()
 
                        } catch {
 

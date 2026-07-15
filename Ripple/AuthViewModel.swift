@@ -47,7 +47,8 @@ class AuthViewModel: ObservableObject {
                        "role": role
                    ])
                    .execute()
-               
+            print("User ID: \(user.id)")
+            print("Session: \(String(describing: result.session))")
                self.session = result.session
                self.isAuthenticated = self.session != nil
                

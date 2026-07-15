@@ -12,15 +12,18 @@ struct ContentView: View {
     var body: some View {
         
         Group {
-            if authViewModel.isAuthenticated {
-//                HomeView(authViewModel: authViewModel)
-                if authViewModel.currentUserRole == "student" {
-                    StudentView()
-                } else {
-                    OrganizationView(authViewModel: authViewModel)
-                }
-            } else {
-                LoginView(authViewModel: authViewModel)
+            switch authViewModel.currentUserRole {
+            case "student":
+                StudentView()
+
+            case "organization":
+                OrganizationView(authViewModel: authViewModel)
+
+            case nil:
+                ProgressView("Loading...")
+
+            default:
+                Text("Unknown role")
             }
         }
         .task {
