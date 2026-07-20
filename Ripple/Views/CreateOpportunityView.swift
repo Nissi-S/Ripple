@@ -35,6 +35,7 @@ struct CreateOpportunityView: View {
 
                 TextField("Contact (include business name)", text: $contact)
             }
+            .font(.custom("IndieFlower-Regular", size: 16))
 
             Button("Post Opportunity") {
                 
@@ -68,6 +69,7 @@ struct CreateOpportunityView: View {
                    }
 
                }
+               .font(.custom("IndieFlower-Regular", size: 16))
             
 
         }

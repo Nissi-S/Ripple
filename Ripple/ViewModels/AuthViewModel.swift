@@ -20,13 +20,18 @@ class AuthViewModel: ObservableObject {
         do {
             let current = try await supabase.auth.session
             self.session = current
-            self.isAuthenticated = current != nil
+            self.isAuthenticated = true
             
-            if self.isAuthenticated {
-                await fetchUserRole()
-            }
+            print("Found session")
+            
+         
+            await fetchUserRole()
+        
         } catch {
             print("No active session: \(error.localizedDescription)")
+            self.session = nil
+            self.isAuthenticated = false
+            self.currentUserRole = nil
         }
     }
     
@@ -47,10 +52,12 @@ class AuthViewModel: ObservableObject {
                        "role": role
                    ])
                    .execute()
-            print("User ID: \(user.id)")
-            print("Session: \(String(describing: result.session))")
+               print("User ID: \(user.id)")
+               print("Session: \(String(describing: result.session))")
                self.session = result.session
                self.isAuthenticated = self.session != nil
+            
+               await fetchUserRole()
                
            } catch {
                print("Sign up failed: \(error.localizedDescription)")

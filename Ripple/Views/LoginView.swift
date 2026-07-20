@@ -15,24 +15,36 @@ struct LoginView: View {
         NavigationStack {
             VStack(spacing: 16) {
                 Text("Welcome to Ripple")
+                    .font(.custom("IndieFlower", size: 32))
                 TextField("Enter your email", text: $email)
                     .textFieldStyle(.roundedBorder)
                     .textInputAutocapitalization(.never)
                     .keyboardType(.emailAddress)
+                    .font(.custom("IndieFlower", size: 16))
                 
                 SecureField("Enter your password", text: $password)
                     .textFieldStyle(.roundedBorder)
+                    .font(.custom("IndieFlower", size: 16))
                 
                 Button("Sign In") {
                     Task {
                         await authViewModel.signIn(email: email, password: password)
                     }
                 }
-                .buttonStyle(.borderedProminent)
-                
+                .buttonStyle(PlainButtonStyle())
+//                .buttonStyle(.borderedProminent)
+                .foregroundColor(.white)
+                .padding()
+                .frame(width: 270.0, height: 50.0)
+                .font(.custom("IndieFlower", size: 20))
+//                .font(.system(size: 20.0, weight: .semibold))
+                .background(Color(red: 133.0/255, green: 161.0/255.0, blue: 170.0/255.0))
+                .cornerRadius(12)
+            
                 Spacer()
                     .frame(height: 50)
                 Text("Dont have an account? Sign up here.")
+                    .font(.custom("IndieFlower", size: 18))
                 
                 //        Button("Sign Up") {
                 //            Task {
@@ -50,7 +62,9 @@ struct LoginView: View {
                             .font(.system(size: 20.0))
                         Text("Sign Up")
                             .foregroundStyle(.white)
-                            .font(.system(size: 20.0, weight: .semibold))
+                            .font(.custom("IndieFlower", size: 16))
+                        
+//                            .font(.system(size: 20.0, weight: .semibold))
                     }
                 }
             }

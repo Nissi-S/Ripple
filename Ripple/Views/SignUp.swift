@@ -25,9 +25,11 @@ struct SignUp: View {
                 .textFieldStyle(.roundedBorder)
                 .textInputAutocapitalization(.never)
                 .keyboardType(.emailAddress)
+                .font(.custom("IndieFlower", size: 16))
             
             SecureField("Enter your password", text: $password)
                 .textFieldStyle(.roundedBorder)
+                .font(.custom("IndieFlower", size: 16))
             
             Picker("Role", selection: $selectedRole) {
                    ForEach(UserRole.allCases) { role in
@@ -35,6 +37,7 @@ struct SignUp: View {
                            .tag(role)
                    }
                }
+               .font(.custom("IndieFlower", size: 16))
             
             Button("Sign Up") {
                 Task {
@@ -42,6 +45,7 @@ struct SignUp: View {
                 }
             }
             .buttonStyle(.bordered)
+            .font(.custom("IndieFlower", size: 16))
         }
         .pickerStyle(.segmented)
         .padding(.horizontal)
