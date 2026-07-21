@@ -15,6 +15,9 @@ struct OrganizationView: View {
 
     var body: some View {
         NavigationStack {
+            ZStack {
+                Color(red: 190.0/255.0, green: 225.0/255.0, blue: 248.0/255.0)
+                    .ignoresSafeArea()
             VStack(spacing: 20) {
 
                 Text("Organization Dashboard")
@@ -64,6 +67,7 @@ struct OrganizationView: View {
             .navigationTitle("Home")
             .sheet(isPresented: $showingCreateOpportunity) {
                 CreateOpportunityView(authViewModel: authViewModel)
+            }
             }
         }
         .task {

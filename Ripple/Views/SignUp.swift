@@ -20,35 +20,39 @@ struct SignUp: View {
     @State private var selectedRole: UserRole = .student
 
     var body: some View {
-        VStack(spacing: 16) {
-            TextField("Enter your email", text: $email)
-                .textFieldStyle(.roundedBorder)
-                .textInputAutocapitalization(.never)
-                .keyboardType(.emailAddress)
-                .font(.custom("IndieFlower", size: 16))
-            
-            SecureField("Enter your password", text: $password)
-                .textFieldStyle(.roundedBorder)
-                .font(.custom("IndieFlower", size: 16))
-            
-            Picker("Role", selection: $selectedRole) {
-                   ForEach(UserRole.allCases) { role in
-                       Text(role.rawValue.capitalized)
-                           .tag(role)
-                   }
-               }
-               .font(.custom("IndieFlower", size: 16))
-            
-            Button("Sign Up") {
-                Task {
-                    await authViewModel.signUp(email: email, password: password, role: selectedRole.rawValue)
+        ZStack {
+            Color(red: 190.0/255.0, green: 225.0/255.0, blue: 248.0/255.0)
+                .ignoresSafeArea()
+            VStack(spacing: 16) {
+                TextField("Enter your email", text: $email)
+                    .textFieldStyle(.roundedBorder)
+                    .textInputAutocapitalization(.never)
+                    .keyboardType(.emailAddress)
+                    .font(.custom("IndieFlower", size: 16))
+                
+                SecureField("Enter your password", text: $password)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.custom("IndieFlower", size: 16))
+                
+                Picker("Role", selection: $selectedRole) {
+                    ForEach(UserRole.allCases) { role in
+                        Text(role.rawValue.capitalized)
+                            .tag(role)
+                    }
                 }
+                .font(.custom("IndieFlower", size: 16))
+                
+                Button("Sign Up") {
+                    Task {
+                        await authViewModel.signUp(email: email, password: password, role: selectedRole.rawValue)
+                    }
+                }
+                .buttonStyle(.bordered)
+                .font(.custom("IndieFlower", size: 16))
             }
-            .buttonStyle(.bordered)
-            .font(.custom("IndieFlower", size: 16))
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
         }
-        .pickerStyle(.segmented)
-        .padding(.horizontal)
     }
 }
 

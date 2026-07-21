@@ -14,78 +14,82 @@ struct StudentView: View {
     @StateObject private var opportunityVM = OpportunityViewModel()
 
     var body: some View {
-
-        NavigationStack {
-
-            List(opportunityVM.opportunities) { opportunity in
-
-                VStack(alignment: .leading, spacing: 8) {
+        ZStack {
+            Color(red: 190.0/255.0, green: 225.0/255.0, blue: 248.0/255.0)
+                .ignoresSafeArea()
+            
+            NavigationStack {
+                
+                List(opportunityVM.opportunities) { opportunity in
                     
-                    Text("Title: \(opportunity.title)")
-                        .font(.custom("IndieFlower", size: 32))
-                    
-                    Text("Description: \(opportunity.description)")
-                        .font(.custom("IndieFlower", size: 20))
-                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        
+                        Text("Title: \(opportunity.title)")
+                            .font(.custom("IndieFlower", size: 32))
+                        
+                        Text("Description: \(opportunity.description)")
+                            .font(.custom("IndieFlower", size: 20))
+                        
                         Group {
-                        Text("Location: \(opportunity.location)")
-                        
-                        Text("Reward: \(opportunity.reward)")
-                        
-                        Text("Contact: \(opportunity.contact_info)")
-                    }
-                    .font(.custom("IndieFlower", size: 16))
-
-                    
-                    Button("🤝 I'm Interested") {
-                        Task {
-                            guard let studentID = authViewModel.session?.user.id else {
-                                return
-                            }
+                            Text("Location: \(opportunity.location)")
                             
-                            guard let opportunityID = opportunity.id else {
-                                print("Opportunity has no ID.")
-                                return
-                            }
+                            Text("Reward: \(opportunity.reward)")
                             
-                            do {
-                                try await supabase
-                                    .from("interests")
-                                    .insert([
-                                        "student_id": studentID.uuidString,
-                                        "opportunity_id": opportunityID.uuidString
-                                    ])
-                                    .execute()
+                            Text("Contact: \(opportunity.contact_info)")
+                        }
+                        .font(.custom("IndieFlower", size: 16))
+                        
+                        
+                        Button("🤝 I'm Interested") {
+                            Task {
+                                guard let studentID = authViewModel.session?.user.id else {
+                                    return
+                                }
                                 
-                                print("Interest saved!")
+                                guard let opportunityID = opportunity.id else {
+                                    print("Opportunity has no ID.")
+                                    return
+                                }
                                 
-                            } catch {
-                                print("Failed to save interest: \(error)")
+                                do {
+                                    try await supabase
+                                        .from("interests")
+                                        .insert([
+                                            "student_id": studentID.uuidString,
+                                            "opportunity_id": opportunityID.uuidString
+                                        ])
+                                        .execute()
+                                    
+                                    print("Interest saved!")
+                                    
+                                } catch {
+                                    print("Failed to save interest: \(error)")
+                                }
                             }
                         }
+                        
+                        
                     }
-                    
-                    
-                }
-                .padding(.vertical, 8)
-                .font(.custom("IndieFlower", size: 16))
-                .refreshable {
-                    await opportunityVM.fetchOpportunities()
-                    
+                    .padding(.vertical, 8)
+                    .font(.custom("IndieFlower", size: 16))
+                    .refreshable {
+                        await opportunityVM.fetchOpportunities()
+                        
                     }
                 }
                 
-            .navigationTitle("Discover")
-            .task {
-                await opportunityVM.fetchOpportunities()
-            }
-            
-            Button("Sign Out") {
-                Task {
-                    await authViewModel.signOut()
+                .navigationTitle("Discover")
+                .task {
+                    await opportunityVM.fetchOpportunities()
                 }
+                
+                Button("Sign Out") {
+                    Task {
+                        await authViewModel.signOut()
+                    }
+                }
+                .font(.custom("IndieFlower", size: 16))
             }
-            .font(.custom("IndieFlower", size: 16))
         }
 
     }
